@@ -185,6 +185,9 @@ function daynight_terminator(date, lonmin, lonmax, delta) {
 }
 
 function getLatClose(dec, latmax, latmin) {
+    /*
+    Function to get closing latitude...
+    */
 
     if (dec > 0) {
         // Northern hemisphere summer
@@ -195,8 +198,10 @@ function getLatClose(dec, latmax, latmin) {
     }
 }
 
-
-function dn2geojson(year, month, day, hour, minutes, delta, latmax, lonmax, latmin, lonmin) {
+function dn2geojson(datetocomp, delta, latmax, lonmax, latmin, lonmin) {
+    /*
+    Get day and night world geometry and dumps to a GeoJSON file.
+    */
 
     var calendar = 'standard';
 
@@ -233,14 +238,21 @@ function dn2geojson(year, month, day, hour, minutes, delta, latmax, lonmax, latm
 
         var dt = new Date();
 
-        if ( year || month || day || hour || minutes) {
-            dt.setFullYear(year, month, day);
-            dt.setHours(hour);
-            dt.setMinutes(minutes);
-            dt.setSeconds(0);
-            dt.setMilliseconds(0);
-        }
+        if (datetocomp.length === 5) {
+            var year = datetocomp[0];
+            var month = datetocomp[1];
+            var day = datetocomp[2];
+            var hour = datetocomp[3];
+            var minutes = datetocomp[4];
 
+            if ( year || month || day || hour || minutes) {
+                dt.setFullYear(year, month, day);
+                dt.setHours(hour);
+                dt.setMinutes(minutes);
+                dt.setSeconds(0);
+                dt.setMilliseconds(0);
+            }
+        }
         var dn_ter = daynight_terminator(dt, lonmin, lonmax, delta);
 
         var cLons = dn_ter[0];

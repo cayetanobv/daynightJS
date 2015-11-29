@@ -62,6 +62,10 @@ http://www.geographica.gs
 
 
 ## License
+copyright (c) 2015 by Cayetano Benavent.
+
+copyright (c) 2011 by Jeffrey Whitaker.
+
 Permission to use, copy, modify, and distribute this software and its documentation
 for any purpose and without fee is hereby granted, provided that the above copyright
 notices appear in all copies and that both the copyright notices and this permission

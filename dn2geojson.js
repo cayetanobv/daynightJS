@@ -80,16 +80,20 @@ function JulianDayFromDate(date, calendar){
             // 1582 October 5 (Julian Calendar)
             B = 0;
         } else {
-            console.log('impossible date (falls in gap between end of Julian' +
-                          'calendar and beginning of Gregorian calendar');
+            var impossibleDateError = new Error('Impossible date (falls in gap between ' +
+                                                'end of Julian calendar and beginning ' +
+                                                'of Gregorian calendar');
+            throw impossibleDateError;
         }
     } else if (calendar == 'proleptic_gregorian') {
         B = 2 - A + Math.floor(A / 4);
     } else if (calendar == 'julian') {
         B = 0;
     } else {
-      console.log('unknown calendar, must be one of julian, standard,' +
-                    'gregorian, proleptic_gregorian, got ' + calendar);
+      var unknownCalendarError = new Error('unknown calendar, must be one of julian, ' +
+                                           'standard, gregorian, proleptic_gregorian, ' +
+                                           'got ' + calendar);
+      throw unknownCalendarError;
     }
 
     // adjust for Julian calendar if necessary
@@ -196,7 +200,16 @@ function dn2geojson(year, month, day, hour, minutes, delta, latmax, lonmax, latm
 
     var calendar = 'standard';
 
-    if (latmax && lonmax && latmin && lonmin) {
+    if (isNaN(delta) || delta <= 0) {
+        var deltaError = new Error("Delta argument must be a positive integer...");
+        throw deltaError;
+    }
+
+    if (isNaN(latmax) || isNaN(lonmax) || isNaN(latmin) || isNaN(lonmin)) {
+        var coordError = new Error("Coordinate arguments must be numbers...");
+        throw coordError;
+
+    } else {
         if (latmax < 80) {
           latmax = 80;
         } else if (latmax > 90){
@@ -217,53 +230,45 @@ function dn2geojson(year, month, day, hour, minutes, delta, latmax, lonmax, latm
         if (lonmin < -180) {
           lonmin = -180;
         }
+
+        var dt = new Date();
+
+        if ( year || month || day || hour || minutes) {
+            dt.setFullYear(year, month, day);
+            dt.setHours(hour);
+            dt.setMinutes(minutes);
+            dt.setSeconds(0);
+            dt.setMilliseconds(0);
+        }
+
+        var dn_ter = daynight_terminator(dt, lonmin, lonmax, delta);
+
+        var cLons = dn_ter[0];
+        var cLats = dn_ter[1];
+
+        var gjs_pl = [];
+        var feat_ln = [];
+
+        var i;
+        var n = cLons.length;
+
+        for (i = 0; i < n; ++i) {
+            feat_ln.push([cLons[i], cLats[i]]);
+        }
+
+        var lat_close = getLatClose(dn_ter[3], latmax, latmin);
+
+        // Closing polygon
+        feat_ln.push([lonmax, lat_close]);
+        feat_ln.push([lonmin, lat_close]);
+        feat_ln.push([cLons[0], cLats[0]]);
+
+        gjs_pl.push({'polygon': [feat_ln], 'date': dt})
+
+        var gjsOut_pl = GeoJSON.parse(gjs_pl, {Polygon: 'polygon'});
+
+        return gjsOut_pl;
     }
-
-    var dt = new Date();
-
-    if ( year || month || day || hour || minutes) {
-        dt.setFullYear(year, month, day);
-        dt.setHours(hour);
-        dt.setMinutes(minutes);
-        dt.setSeconds(0);
-        dt.setMilliseconds(0);
-    }
-
-    // var juldy = JulianDayFromDate(dt, calendar);
-    // console.log(juldy);
-
-    // var eph = epem(dt);
-    // console.log(eph);
-
-    // var lonmin = -180, lonmax = 180;
-    var dn_ter = daynight_terminator(dt, lonmin, lonmax, delta);
-    // console.log(dn_ter);
-
-    var cLons = dn_ter[0];
-    var cLats = dn_ter[1];
-
-    var gjs_pl = [];
-    var feat_ln = [];
-
-    var i;
-    var n = cLons.length;
-
-    for (i = 0; i < n; ++i) {
-        feat_ln.push([cLons[i], cLats[i]]);
-    }
-
-    var lat_close = getLatClose(dn_ter[3], latmax, latmin);
-
-    // Closing polygon
-    feat_ln.push([lonmax, lat_close]);
-    feat_ln.push([lonmin, lat_close]);
-    feat_ln.push([cLons[0], cLats[0]]);
-
-    gjs_pl.push({'polygon': [feat_ln], 'date': dt})
-
-    var gjsOut_pl = GeoJSON.parse(gjs_pl, {Polygon: 'polygon'});
-
-    return gjsOut_pl;
 }
 
 module.exports.dn2geojson = dn2geojson;

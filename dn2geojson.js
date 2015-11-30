@@ -165,6 +165,7 @@ function daynight_terminator(date, lonmin, lonmax, delta) {
     var minLon = lonmin;
     var maxLon = lonmax;
     var lons = [];
+
     while (minLon <= maxLon) {
         lons.push(minLon);
         minLon = minLon + delta;
@@ -202,8 +203,6 @@ function dn2geojson(datetocomp, delta, latmax, lonmax, latmin, lonmin) {
     /*
     Get day and night world geometry and dumps to a GeoJSON file.
     */
-
-    var calendar = 'standard';
 
     if (isNaN(delta) || delta <= 0) {
         var deltaError = new Error("Delta argument must be a positive integer...");

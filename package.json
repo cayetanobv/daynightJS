@@ -1,9 +1,13 @@
 {
-  "name": "DaynightJS",
+  "name": "daynight",
   "description": "Get day and night world geometry and dumps to a GeoJSON file. This module is partially a port from Python Matplotlib Basemap solar module.",
   "author": {
     "name": "Cayetano Benavent",
     "email": "cayetano.benavent@geographica.gs"
+  },
+  "main": "dn2geojson.js",
+  "directories": {
+    "test": "test"
   },
   "version": "0.1",
   "main": "./dn2geojson",
@@ -11,39 +15,24 @@
     "type": "git",
     "url": "http://github.com/Geographica/DaynightJS.git"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "geojson": "*"
   },
+  "devDependencies": {},
   "engines": {
     "node": "0.10.x"
   },
   "scripts": {
     "test": ""
   },
-  "gitHead": "",
   "bugs": {
     "url": "http://github.com/Geographica/DaynightJS/issues"
   },
   "homepage": "http://github.com/Geographica/DaynightJS",
-  "_id": "geojson@0.2.1",
-  "_shasum": "8c60956e4b5b01a7dec3b6629e093f41579726fe",
-  "_from": "geojson@*",
-  "_npmVersion": "0.1",
-  "_npmUser": {
-    "name": "cayetanobv",
-    "email": "cayetano.benavent@geographica.gs"
-  },
   "maintainers": [
     {
       "name": "cayetanobv",
       "email": "cayetano.benavent@geographica.gs"
     }
-  ],
-  "dist": {
-    "shasum": "",
-    "tarball": ""
-  },
-  "directories": {},
-  "_resolved": "https://registry.npmjs.org/"
+  ]
 }

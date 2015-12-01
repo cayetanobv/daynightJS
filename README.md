@@ -8,11 +8,11 @@ https://github.com/matplotlib/basemap
 
 ## Examples
 
-[Example 1](test/geojson/test.geojson)
+[Example 1. Basic usage to compute a given day.](test/geojson/test.geojson)
 
-[Example 2](test/geojson/test_now.geojson)
+[Example 2. Basic usage to compute now (UTC).](test/geojson/test_now.geojson)
 
-[Example 3](test/geojson/test_bbox.geojson)
+[Example 3. Basic usage to compute now (UTC) with limited bounding box](test/geojson/test_bbox.geojson)
 
 ## Usage
 Basic usage to compute a given day:

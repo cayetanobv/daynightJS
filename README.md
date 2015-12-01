@@ -6,6 +6,14 @@ Several functions are ported from Python Matplotlib Basemap library, mainly
 developed by Jeff Whitaker (NOAA - Earth System Research Laboratory).
 https://github.com/matplotlib/basemap
 
+## Examples
+
+[Example 1](test/geojson/test.geojson)
+
+[Example 2](test/geojson/test_now.geojson)
+
+[Example 3](test/geojson/test_bbox.geojson)
+
 ## Usage
 Basic usage to compute a given day:
 ```javascript
@@ -46,6 +54,8 @@ console.log(JSON.stringify(res_geojson, null, " "));
 ```
 
 ## Requirements
+You can see or use [package.json](package.json) file.
+
 - Geojson.
 
 For node, use npm:
